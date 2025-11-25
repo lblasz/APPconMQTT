@@ -2,6 +2,7 @@ package com.example.appconmqtt;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -68,4 +69,14 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (client != null && client.isConnected()) {
+                client.disconnect();
+            }
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+}}
